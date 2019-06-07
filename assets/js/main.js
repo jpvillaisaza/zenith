@@ -5072,6 +5072,7 @@ var elm$html$Html$Attributes$stringProperty = F2(
 			key,
 			elm$json$Json$Encode$string(string));
 	});
+var elm$html$Html$Attributes$class = elm$html$Html$Attributes$stringProperty('className');
 var elm$html$Html$Attributes$type_ = elm$html$Html$Attributes$stringProperty('type');
 var elm$html$Html$Attributes$value = elm$html$Html$Attributes$stringProperty('value');
 var elm$html$Html$Events$alwaysStop = function (x) {
@@ -5182,6 +5183,7 @@ var author$project$Main$viewI = F4(
 					_List_fromArray(
 						[
 							elm$html$Html$Attributes$autofocus(af),
+							elm$html$Html$Attributes$class('form-input'),
 							elm$html$Html$Events$onInput(u),
 							elm$html$Html$Attributes$type_('text'),
 							elm$html$Html$Attributes$value(v)
@@ -5189,16 +5191,50 @@ var author$project$Main$viewI = F4(
 					_List_Nil)
 				]));
 	});
+var elm$html$Html$fieldset = _VirtualDom_node('fieldset');
 var elm$html$Html$form = _VirtualDom_node('form');
+var elm$html$Html$legend = _VirtualDom_node('legend');
 var author$project$Main$view = function (model) {
 	return A2(
 		elm$html$Html$form,
 		_List_Nil,
 		_List_fromArray(
 			[
-				A4(author$project$Main$viewI, true, 'L/100', author$project$Main$Update1, model.v.e),
-				A4(author$project$Main$viewI, false, 'mpg', author$project$Main$Update2, model.w.e),
-				A4(author$project$Main$viewI, false, 'kpg', author$project$Main$Update3, model.x.e)
+				A2(
+				elm$html$Html$fieldset,
+				_List_fromArray(
+					[
+						elm$html$Html$Attributes$class('form-group')
+					]),
+				_List_fromArray(
+					[
+						A2(
+						elm$html$Html$legend,
+						_List_Nil,
+						_List_fromArray(
+							[
+								elm$html$Html$text('Fuel consumption')
+							])),
+						A4(author$project$Main$viewI, true, 'L/100 km', author$project$Main$Update1, model.v.e)
+					])),
+				A2(
+				elm$html$Html$fieldset,
+				_List_fromArray(
+					[
+						elm$html$Html$Attributes$class('form-group')
+					]),
+				_List_fromArray(
+					[
+						A2(
+						elm$html$Html$legend,
+						_List_Nil,
+						_List_fromArray(
+							[
+								elm$html$Html$text('Fuel economy')
+							])),
+						A4(author$project$Main$viewI, false, 'mpg', author$project$Main$Update2, model.w.e),
+						A4(author$project$Main$viewI, false, 'kpg', author$project$Main$Update3, model.x.e)
+					]))
 			]));
 };
 var elm$core$Platform$Cmd$batch = _Platform_batch;

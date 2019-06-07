@@ -71,10 +71,17 @@ clean =
 view : Model -> Html Msg
 view model =
   Html.form []
-    [ viewI True "L/100" Update1 model.input1.i
-    -- fuel consumption
-    , viewI False "mpg" Update2 model.input2.i
-    , viewI False "kpg" Update3 model.input3.i
+    [ Html.fieldset [ Html.Attributes.class "form-group" ]
+      [ Html.legend []
+        [ Html.text "Fuel consumption" ]
+      , viewI True "L/100 km" Update1 model.input1.i
+      ]
+    , Html.fieldset [ Html.Attributes.class "form-group" ]
+      [ Html.legend []
+        [ Html.text "Fuel economy" ]
+      , viewI False "mpg" Update2 model.input2.i
+      , viewI False "kpg" Update3 model.input3.i
+      ]
     ]
 
 viewI af l u v =
@@ -82,6 +89,7 @@ viewI af l u v =
     [ label [] [ text l ]
     , input
       [ autofocus af
+      , Html.Attributes.class "form-input"
       , onInput u
       , type_ "text"
       , value v

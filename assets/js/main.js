@@ -5055,6 +5055,14 @@ var elm$html$Html$input = _VirtualDom_node('input');
 var elm$html$Html$label = _VirtualDom_node('label');
 var elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var elm$html$Html$text = elm$virtual_dom$VirtualDom$text;
+var elm$virtual_dom$VirtualDom$attribute = F2(
+	function (key, value) {
+		return A2(
+			_VirtualDom_attribute,
+			_VirtualDom_noOnOrFormAction(key),
+			_VirtualDom_noJavaScriptOrHtmlUri(value));
+	});
+var elm$html$Html$Attributes$attribute = elm$virtual_dom$VirtualDom$attribute;
 var elm$json$Json$Encode$bool = _Json_wrap;
 var elm$html$Html$Attributes$boolProperty = F2(
 	function (key, bool) {
@@ -5184,6 +5192,7 @@ var author$project$Main$viewI = F4(
 						[
 							elm$html$Html$Attributes$autofocus(af),
 							elm$html$Html$Attributes$class('form-input'),
+							A2(elm$html$Html$Attributes$attribute, 'inputmode', 'decimal'),
 							elm$html$Html$Events$onInput(u),
 							elm$html$Html$Attributes$type_('text'),
 							elm$html$Html$Attributes$value(v)

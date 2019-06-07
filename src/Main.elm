@@ -90,6 +90,7 @@ viewI af l u v =
     , input
       [ autofocus af
       , Html.Attributes.class "form-input"
+      , Html.Attributes.attribute "inputmode" "decimal"
       , onInput u
       , type_ "text"
       , value v

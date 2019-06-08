@@ -5081,6 +5081,8 @@ var elm$html$Html$Attributes$stringProperty = F2(
 			elm$json$Json$Encode$string(string));
 	});
 var elm$html$Html$Attributes$class = elm$html$Html$Attributes$stringProperty('className');
+var elm$html$Html$Attributes$for = elm$html$Html$Attributes$stringProperty('htmlFor');
+var elm$html$Html$Attributes$id = elm$html$Html$Attributes$stringProperty('id');
 var elm$html$Html$Attributes$type_ = elm$html$Html$Attributes$stringProperty('type');
 var elm$html$Html$Attributes$value = elm$html$Html$Attributes$stringProperty('value');
 var elm$html$Html$Events$alwaysStop = function (x) {
@@ -5172,8 +5174,8 @@ var elm$html$Html$Events$onInput = function (tagger) {
 			elm$html$Html$Events$alwaysStop,
 			A2(elm$json$Json$Decode$map, tagger, elm$html$Html$Events$targetValue)));
 };
-var author$project$Main$viewI = F4(
-	function (af, l, u, v) {
+var author$project$Main$viewI = F5(
+	function (i, af, l, u, v) {
 		return A2(
 			elm$html$Html$div,
 			_List_Nil,
@@ -5181,7 +5183,10 @@ var author$project$Main$viewI = F4(
 				[
 					A2(
 					elm$html$Html$label,
-					_List_Nil,
+					_List_fromArray(
+						[
+							elm$html$Html$Attributes$for(i)
+						]),
 					_List_fromArray(
 						[
 							elm$html$Html$text(l)
@@ -5192,6 +5197,7 @@ var author$project$Main$viewI = F4(
 						[
 							elm$html$Html$Attributes$autofocus(af),
 							elm$html$Html$Attributes$class('form-input'),
+							elm$html$Html$Attributes$id(i),
 							A2(elm$html$Html$Attributes$attribute, 'inputmode', 'decimal'),
 							elm$html$Html$Events$onInput(u),
 							elm$html$Html$Attributes$type_('text'),
@@ -5224,7 +5230,7 @@ var author$project$Main$view = function (model) {
 							[
 								elm$html$Html$text('Fuel consumption')
 							])),
-						A4(author$project$Main$viewI, true, 'L/100 km', author$project$Main$Update1, model.v.e)
+						A5(author$project$Main$viewI, 'fuel-consumption', true, 'L/100 km', author$project$Main$Update1, model.v.e)
 					])),
 				A2(
 				elm$html$Html$fieldset,
@@ -5241,8 +5247,8 @@ var author$project$Main$view = function (model) {
 							[
 								elm$html$Html$text('Fuel economy')
 							])),
-						A4(author$project$Main$viewI, false, 'mpg', author$project$Main$Update2, model.w.e),
-						A4(author$project$Main$viewI, false, 'kpg', author$project$Main$Update3, model.x.e)
+						A5(author$project$Main$viewI, 'fuel-economy-mpg', false, 'mpg', author$project$Main$Update2, model.w.e),
+						A5(author$project$Main$viewI, 'fuel-economy-kpg', false, 'kpg', author$project$Main$Update3, model.x.e)
 					]))
 			]));
 };

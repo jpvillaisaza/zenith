@@ -74,22 +74,23 @@ view model =
     [ Html.fieldset [ Html.Attributes.class "form-group" ]
       [ Html.legend []
         [ Html.text "Fuel consumption" ]
-      , viewI True "L/100 km" Update1 model.input1.i
+      , viewI "fuel-consumption" True "L/100 km" Update1 model.input1.i
       ]
     , Html.fieldset [ Html.Attributes.class "form-group" ]
       [ Html.legend []
         [ Html.text "Fuel economy" ]
-      , viewI False "mpg" Update2 model.input2.i
-      , viewI False "kpg" Update3 model.input3.i
+      , viewI "fuel-economy-mpg" False "mpg" Update2 model.input2.i
+      , viewI "fuel-economy-kpg" False "kpg" Update3 model.input3.i
       ]
     ]
 
-viewI af l u v =
+viewI i af l u v =
   div []
-    [ label [] [ text l ]
+    [ label [ Html.Attributes.for i ] [ text l ]
     , input
       [ autofocus af
       , Html.Attributes.class "form-input"
+      , Html.Attributes.id i
       , Html.Attributes.attribute "inputmode" "decimal"
       , onInput u
       , type_ "text"

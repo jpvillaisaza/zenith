@@ -65,19 +65,19 @@ view model =
       case model of
         Input1 i1 -> let v = String.toFloat i1 in
           ( i1
-          , Maybe.withDefault "" (Maybe.map (String.fromFloat << l100ToMpg) v)
-          , Maybe.withDefault "" (Maybe.map (String.fromFloat << milesToKilometers << l100ToMpg) v)
+          , Maybe.withDefault "" (Maybe.map (truncate << l100ToMpg) v)
+          , Maybe.withDefault "" (Maybe.map (truncate << milesToKilometers << l100ToMpg) v)
           )
 
         Input2 i2 -> let v = String.toFloat i2 in
-          ( Maybe.withDefault "" (Maybe.map (String.fromFloat << mpgToL100) v)
+          ( Maybe.withDefault "" (Maybe.map (truncate << mpgToL100) v)
           , i2
-          , Maybe.withDefault "" (Maybe.map (String.fromFloat << milesToKilometers) v)
+          , Maybe.withDefault "" (Maybe.map (truncate << milesToKilometers) v)
           )
 
         Input3 i3 -> let v = String.toFloat i3 in
-          ( Maybe.withDefault "" (Maybe.map (String.fromFloat << mpgToL100 << kilometersToMiles) v)
-          , Maybe.withDefault "" (Maybe.map (String.fromFloat << kilometersToMiles) v)
+          ( Maybe.withDefault "" (Maybe.map (truncate << mpgToL100 << kilometersToMiles) v)
+          , Maybe.withDefault "" (Maybe.map (truncate << kilometersToMiles) v)
           , i3
           )
   in
@@ -130,3 +130,14 @@ milesToKilometers n =
 kilometersToMiles : Float -> Float
 kilometersToMiles n =
   n / 1.609
+
+
+truncate : Float -> String
+truncate f =
+  case String.split "." (String.fromFloat f) of
+      a :: b :: _ ->
+        a ++ "." ++ String.left 2 b
+      a :: _ ->
+        a
+      _ ->
+        ""

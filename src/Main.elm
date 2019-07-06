@@ -1,9 +1,10 @@
-module Main exposing (..)
+module Main exposing (main)
 
 import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onInput)
+
 
 main : Program () Model Msg
 main =
@@ -13,11 +14,13 @@ main =
     , view = view
     }
 
+
 type alias Model =
   { input1 : { i : String, v : Maybe Float }
   , input2 : { i : String, v : Maybe Float }
   , input3 : { i : String, v : Maybe Float }
   }
+
 
 init : Model
 init =
@@ -26,10 +29,12 @@ init =
   , input3 = { i = "", v = Nothing }
   }
 
+
 type Msg
   = Update1 String
   | Update2 String
   | Update3 String
+
 
 update : Msg -> Model -> Model
 update msg model =
@@ -41,6 +46,7 @@ update msg model =
       , input2 = { i = Maybe.withDefault "" (Maybe.map (String.fromFloat << l100ToMpg) (String.toFloat m)), v = Maybe.map l100ToMpg (String.toFloat m) }
       , input3 = { i = Maybe.withDefault "" (Maybe.map (String.fromFloat << milesToKilometers << l100ToMpg) (String.toFloat m)), v = Maybe.map (milesToKilometers << l100ToMpg) (String.toFloat m) }
       }
+
     Update2 dirty ->
       let m = clean dirty in
       { model
@@ -48,6 +54,7 @@ update msg model =
       , input2 = { i = m, v = String.toFloat m }
       , input3 = { i = Maybe.withDefault "" (Maybe.map (String.fromFloat << milesToKilometers) (String.toFloat m)), v = Maybe.map milesToKilometers (String.toFloat m) }
       }
+
     Update3 dirty ->
       let m = clean dirty in
       { model
@@ -55,6 +62,7 @@ update msg model =
       , input2 = { i = Maybe.withDefault "" (Maybe.map (String.fromFloat << kilometersToMiles) (String.toFloat m)), v = Maybe.map kilometersToMiles (String.toFloat m) }
       , input3 = { i = clean m, v = String.toFloat m }
       }
+
 
 clean : String -> String
 clean =
@@ -67,6 +75,7 @@ clean =
         (m, (s::ss)) -> if s == '.' then String.reverse acc else p m (String.cons s acc) ss
   in
     p 0 "" << String.toList << String.filter (\c -> Char.isDigit c || c == '.')
+
 
 view : Model -> Html Msg
 view model =
@@ -84,6 +93,7 @@ view model =
       ]
     ]
 
+
 viewI i af l u v =
   div []
     [ label [ Html.Attributes.for i ] [ text l ]
@@ -99,17 +109,21 @@ viewI i af l u v =
       []
     ]
 
+
 l100ToMpg : Float -> Float
 l100ToMpg n =
   235.215/n
+
 
 mpgToL100 : Float -> Float
 mpgToL100 n =
   235.215 / n
 
+
 milesToKilometers : Float -> Float
 milesToKilometers n =
   n * 1.609
+
 
 kilometersToMiles : Float -> Float
 kilometersToMiles n =

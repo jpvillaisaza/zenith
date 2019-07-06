@@ -600,11 +600,11 @@ function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.P.E === region.U.E)
+	if (region.K.z === region.P.z)
 	{
-		return 'on line ' + region.P.E;
+		return 'on line ' + region.K.z;
 	}
-	return 'on lines ' + region.P.E + ' through ' + region.U.E;
+	return 'on lines ' + region.K.z + ' through ' + region.P.z;
 }
 
 
@@ -1857,9 +1857,9 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.aw,
-		impl.aE,
-		impl.aC,
+		impl.ar,
+		impl.az,
+		impl.ax,
 		function() { return function() {} }
 	);
 });
@@ -2659,9 +2659,9 @@ var _VirtualDom_mapEventTuple = F2(function(func, tuple)
 var _VirtualDom_mapEventRecord = F2(function(func, record)
 {
 	return {
-		m: func(record.m),
-		Q: record.Q,
-		O: record.O
+		k: func(record.k),
+		L: record.L,
+		J: record.J
 	}
 });
 
@@ -2929,11 +2929,11 @@ function _VirtualDom_makeCallback(eventNode, initialHandler)
 		// 3 = Custom
 
 		var value = result.a;
-		var message = !tag ? value : tag < 3 ? value.a : value.m;
-		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.Q;
+		var message = !tag ? value : tag < 3 ? value.a : value.k;
+		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.L;
 		var currentEventNode = (
 			stopPropagation && event.stopPropagation(),
-			(tag == 2 ? value.b : tag == 3 && value.O) && event.preventDefault(),
+			(tag == 2 ? value.b : tag == 3 && value.J) && event.preventDefault(),
 			eventNode
 		);
 		var tagger;
@@ -3883,11 +3883,11 @@ var _Browser_element = _Debugger_element || F4(function(impl, flagDecoder, debug
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.aw,
-		impl.aE,
-		impl.aC,
+		impl.ar,
+		impl.az,
+		impl.ax,
 		function(sendToApp, initialModel) {
-			var view = impl.aG;
+			var view = impl.aB;
 			/**/
 			var domNode = args['node'];
 			//*/
@@ -3919,12 +3919,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.aw,
-		impl.aE,
-		impl.aC,
+		impl.ar,
+		impl.az,
+		impl.ax,
 		function(sendToApp, initialModel) {
-			var divertHrefToApp = impl.F && impl.F(sendToApp)
-			var view = impl.aG;
+			var divertHrefToApp = impl.A && impl.A(sendToApp)
+			var view = impl.aB;
 			var title = _VirtualDom_doc.title;
 			var bodyNode = _VirtualDom_doc.body;
 			var currNode = _VirtualDom_virtualize(bodyNode);
@@ -3932,12 +3932,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 			{
 				_VirtualDom_divertHrefToApp = divertHrefToApp;
 				var doc = view(model);
-				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.ap);
+				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.ak);
 				var patches = _VirtualDom_diff(currNode, nextNode);
 				bodyNode = _VirtualDom_applyPatches(bodyNode, currNode, patches, sendToApp);
 				currNode = nextNode;
 				_VirtualDom_divertHrefToApp = 0;
-				(title !== doc.aD) && (_VirtualDom_doc.title = title = doc.aD);
+				(title !== doc.ay) && (_VirtualDom_doc.title = title = doc.ay);
 			});
 		}
 	);
@@ -3993,12 +3993,12 @@ function _Browser_makeAnimator(model, draw)
 
 function _Browser_application(impl)
 {
-	var onUrlChange = impl.ay;
-	var onUrlRequest = impl.az;
+	var onUrlChange = impl.at;
+	var onUrlRequest = impl.au;
 	var key = function() { key.a(onUrlChange(_Browser_getUrl())); };
 
 	return _Browser_document({
-		F: function(sendToApp)
+		A: function(sendToApp)
 		{
 			key.a = sendToApp;
 			_Browser_window.addEventListener('popstate', key);
@@ -4014,9 +4014,9 @@ function _Browser_application(impl)
 					var next = elm$url$Url$fromString(href).a;
 					sendToApp(onUrlRequest(
 						(next
-							&& curr.af === next.af
-							&& curr.X === next.X
-							&& curr.ac.a === next.ac.a
+							&& curr.aa === next.aa
+							&& curr.S === next.S
+							&& curr.Y.a === next.Y.a
 						)
 							? elm$browser$Browser$Internal(next)
 							: elm$browser$Browser$External(href)
@@ -4024,13 +4024,13 @@ function _Browser_application(impl)
 				}
 			});
 		},
-		aw: function(flags)
+		ar: function(flags)
 		{
-			return A3(impl.aw, flags, _Browser_getUrl(), key);
+			return A3(impl.ar, flags, _Browser_getUrl(), key);
 		},
-		aG: impl.aG,
-		aE: impl.aE,
-		aC: impl.aC
+		aB: impl.aB,
+		az: impl.az,
+		ax: impl.ax
 	});
 }
 
@@ -4096,17 +4096,17 @@ var _Browser_decodeEvent = F2(function(decoder, event)
 function _Browser_visibilityInfo()
 {
 	return (typeof _VirtualDom_doc.hidden !== 'undefined')
-		? { au: 'hidden', aq: 'visibilitychange' }
+		? { ap: 'hidden', al: 'visibilitychange' }
 		:
 	(typeof _VirtualDom_doc.mozHidden !== 'undefined')
-		? { au: 'mozHidden', aq: 'mozvisibilitychange' }
+		? { ap: 'mozHidden', al: 'mozvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.msHidden !== 'undefined')
-		? { au: 'msHidden', aq: 'msvisibilitychange' }
+		? { ap: 'msHidden', al: 'msvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.webkitHidden !== 'undefined')
-		? { au: 'webkitHidden', aq: 'webkitvisibilitychange' }
-		: { au: 'hidden', aq: 'visibilitychange' };
+		? { ap: 'webkitHidden', al: 'webkitvisibilitychange' }
+		: { ap: 'hidden', al: 'visibilitychange' };
 }
 
 
@@ -4187,12 +4187,12 @@ var _Browser_call = F2(function(functionName, id)
 function _Browser_getViewport()
 {
 	return {
-		aj: _Browser_getScene(),
-		am: {
-			K: _Browser_window.pageXOffset,
-			L: _Browser_window.pageYOffset,
-			C: _Browser_doc.documentElement.clientWidth,
-			u: _Browser_doc.documentElement.clientHeight
+		ae: _Browser_getScene(),
+		ah: {
+			F: _Browser_window.pageXOffset,
+			G: _Browser_window.pageYOffset,
+			x: _Browser_doc.documentElement.clientWidth,
+			s: _Browser_doc.documentElement.clientHeight
 		}
 	};
 }
@@ -4202,8 +4202,8 @@ function _Browser_getScene()
 	var body = _Browser_doc.body;
 	var elem = _Browser_doc.documentElement;
 	return {
-		C: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
-		u: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
+		x: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
+		s: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
 	};
 }
 
@@ -4226,15 +4226,15 @@ function _Browser_getViewportOf(id)
 	return _Browser_withNode(id, function(node)
 	{
 		return {
-			aj: {
-				C: node.scrollWidth,
-				u: node.scrollHeight
+			ae: {
+				x: node.scrollWidth,
+				s: node.scrollHeight
 			},
-			am: {
-				K: node.scrollLeft,
-				L: node.scrollTop,
-				C: node.clientWidth,
-				u: node.clientHeight
+			ah: {
+				F: node.scrollLeft,
+				G: node.scrollTop,
+				x: node.clientWidth,
+				s: node.clientHeight
 			}
 		};
 	});
@@ -4264,18 +4264,18 @@ function _Browser_getElement(id)
 		var x = _Browser_window.pageXOffset;
 		var y = _Browser_window.pageYOffset;
 		return {
-			aj: _Browser_getScene(),
-			am: {
-				K: x,
-				L: y,
-				C: _Browser_doc.documentElement.clientWidth,
-				u: _Browser_doc.documentElement.clientHeight
+			ae: _Browser_getScene(),
+			ah: {
+				F: x,
+				G: y,
+				x: _Browser_doc.documentElement.clientWidth,
+				s: _Browser_doc.documentElement.clientHeight
 			},
-			ar: {
-				K: x + rect.left,
-				L: y + rect.top,
-				C: rect.width,
-				u: rect.height
+			am: {
+				F: x + rect.left,
+				G: y + rect.top,
+				x: rect.width,
+				s: rect.height
 			}
 		};
 	});
@@ -4310,11 +4310,15 @@ function _Browser_load(url)
 		}
 	}));
 }
-var elm$core$Maybe$Nothing = {$: 1};
-var author$project$Main$init = {
-	v: {e: '', h: elm$core$Maybe$Nothing},
-	w: {e: '', h: elm$core$Maybe$Nothing},
-	x: {e: '', h: elm$core$Maybe$Nothing}
+var author$project$Main$Input1 = function (a) {
+	return {$: 0, a: a};
+};
+var author$project$Main$init = author$project$Main$Input1('');
+var author$project$Main$Input2 = function (a) {
+	return {$: 1, a: a};
+};
+var author$project$Main$Input3 = function (a) {
+	return {$: 2, a: a};
 };
 var elm$core$Basics$composeL = F3(
 	function (g, f, x) {
@@ -4413,6 +4417,7 @@ var elm$core$Char$isDigit = function (_char) {
 var elm$core$Maybe$Just = function (a) {
 	return {$: 0, a: a};
 };
+var elm$core$Maybe$Nothing = {$: 1};
 var elm$core$String$cons = _String_cons;
 var elm$core$String$filter = _String_filter;
 var elm$core$String$reverse = _String_reverse;
@@ -4486,6 +4491,32 @@ var author$project$Main$clean = function () {
 				return elm$core$Char$isDigit(c) || (c === '.');
 			}));
 }();
+var author$project$Main$update = F2(
+	function (msg, model) {
+		switch (msg.$) {
+			case 0:
+				var dirty = msg.a;
+				var m = author$project$Main$clean(dirty);
+				return author$project$Main$Input1(m);
+			case 1:
+				var dirty = msg.a;
+				var m = author$project$Main$clean(dirty);
+				return author$project$Main$Input2(m);
+			default:
+				var dirty = msg.a;
+				var m = author$project$Main$clean(dirty);
+				return author$project$Main$Input3(m);
+		}
+	});
+var author$project$Main$Update1 = function (a) {
+	return {$: 0, a: a};
+};
+var author$project$Main$Update2 = function (a) {
+	return {$: 1, a: a};
+};
+var author$project$Main$Update3 = function (a) {
+	return {$: 2, a: a};
+};
 var elm$core$Basics$fdiv = _Basics_fdiv;
 var author$project$Main$kilometersToMiles = function (n) {
 	return n / 1.609;
@@ -4500,157 +4531,37 @@ var author$project$Main$milesToKilometers = function (n) {
 var author$project$Main$mpgToL100 = function (n) {
 	return 235.215 / n;
 };
-var elm$core$Maybe$map = F2(
-	function (f, maybe) {
-		if (!maybe.$) {
-			var value = maybe.a;
-			return elm$core$Maybe$Just(
-				f(value));
-		} else {
-			return elm$core$Maybe$Nothing;
-		}
-	});
-var elm$core$Maybe$withDefault = F2(
-	function (_default, maybe) {
-		if (!maybe.$) {
-			var value = maybe.a;
-			return value;
-		} else {
-			return _default;
-		}
-	});
+var elm$core$Basics$append = _Utils_append;
 var elm$core$String$fromFloat = _String_fromNumber;
-var elm$core$String$toFloat = _String_toFloat;
-var author$project$Main$update = F2(
-	function (msg, model) {
-		switch (msg.$) {
-			case 0:
-				var dirty = msg.a;
-				var m = author$project$Main$clean(dirty);
-				return _Utils_update(
-					model,
-					{
-						v: {
-							e: m,
-							h: elm$core$String$toFloat(m)
-						},
-						w: {
-							e: A2(
-								elm$core$Maybe$withDefault,
-								'',
-								A2(
-									elm$core$Maybe$map,
-									A2(elm$core$Basics$composeL, elm$core$String$fromFloat, author$project$Main$l100ToMpg),
-									elm$core$String$toFloat(m))),
-							h: A2(
-								elm$core$Maybe$map,
-								author$project$Main$l100ToMpg,
-								elm$core$String$toFloat(m))
-						},
-						x: {
-							e: A2(
-								elm$core$Maybe$withDefault,
-								'',
-								A2(
-									elm$core$Maybe$map,
-									A2(
-										elm$core$Basics$composeL,
-										A2(elm$core$Basics$composeL, elm$core$String$fromFloat, author$project$Main$milesToKilometers),
-										author$project$Main$l100ToMpg),
-									elm$core$String$toFloat(m))),
-							h: A2(
-								elm$core$Maybe$map,
-								A2(elm$core$Basics$composeL, author$project$Main$milesToKilometers, author$project$Main$l100ToMpg),
-								elm$core$String$toFloat(m))
-						}
-					});
-			case 1:
-				var dirty = msg.a;
-				var m = author$project$Main$clean(dirty);
-				return _Utils_update(
-					model,
-					{
-						v: {
-							e: A2(
-								elm$core$Maybe$withDefault,
-								'',
-								A2(
-									elm$core$Maybe$map,
-									A2(elm$core$Basics$composeL, elm$core$String$fromFloat, author$project$Main$mpgToL100),
-									elm$core$String$toFloat(m))),
-							h: A2(
-								elm$core$Maybe$map,
-								author$project$Main$mpgToL100,
-								elm$core$String$toFloat(m))
-						},
-						w: {
-							e: m,
-							h: elm$core$String$toFloat(m)
-						},
-						x: {
-							e: A2(
-								elm$core$Maybe$withDefault,
-								'',
-								A2(
-									elm$core$Maybe$map,
-									A2(elm$core$Basics$composeL, elm$core$String$fromFloat, author$project$Main$milesToKilometers),
-									elm$core$String$toFloat(m))),
-							h: A2(
-								elm$core$Maybe$map,
-								author$project$Main$milesToKilometers,
-								elm$core$String$toFloat(m))
-						}
-					});
-			default:
-				var dirty = msg.a;
-				var m = author$project$Main$clean(dirty);
-				return _Utils_update(
-					model,
-					{
-						v: {
-							e: A2(
-								elm$core$Maybe$withDefault,
-								'',
-								A2(
-									elm$core$Maybe$map,
-									A2(
-										elm$core$Basics$composeL,
-										A2(elm$core$Basics$composeL, elm$core$String$fromFloat, author$project$Main$mpgToL100),
-										author$project$Main$kilometersToMiles),
-									elm$core$String$toFloat(m))),
-							h: A2(
-								elm$core$Maybe$map,
-								A2(elm$core$Basics$composeL, author$project$Main$mpgToL100, author$project$Main$kilometersToMiles),
-								elm$core$String$toFloat(m))
-						},
-						w: {
-							e: A2(
-								elm$core$Maybe$withDefault,
-								'',
-								A2(
-									elm$core$Maybe$map,
-									A2(elm$core$Basics$composeL, elm$core$String$fromFloat, author$project$Main$kilometersToMiles),
-									elm$core$String$toFloat(m))),
-							h: A2(
-								elm$core$Maybe$map,
-								author$project$Main$kilometersToMiles,
-								elm$core$String$toFloat(m))
-						},
-						x: {
-							e: author$project$Main$clean(m),
-							h: elm$core$String$toFloat(m)
-						}
-					});
-		}
+var elm$core$Basics$lt = _Utils_lt;
+var elm$core$String$slice = _String_slice;
+var elm$core$String$left = F2(
+	function (n, string) {
+		return (n < 1) ? '' : A3(elm$core$String$slice, 0, n, string);
 	});
-var author$project$Main$Update1 = function (a) {
-	return {$: 0, a: a};
-};
-var author$project$Main$Update2 = function (a) {
-	return {$: 1, a: a};
-};
-var author$project$Main$Update3 = function (a) {
-	return {$: 2, a: a};
+var elm$core$String$split = F2(
+	function (sep, string) {
+		return _List_fromArray(
+			A2(_String_split, sep, string));
+	});
+var author$project$Main$truncate = function (f) {
+	var _n0 = A2(
+		elm$core$String$split,
+		'.',
+		elm$core$String$fromFloat(f));
+	if (_n0.b) {
+		if (_n0.b.b) {
+			var a = _n0.a;
+			var _n1 = _n0.b;
+			var b = _n1.a;
+			return a + ('.' + A2(elm$core$String$left, 2, b));
+		} else {
+			var a = _n0.a;
+			return a;
+		}
+	} else {
+		return '';
+	}
 };
 var elm$core$Basics$identity = function (x) {
 	return x;
@@ -4791,7 +4702,6 @@ var elm$core$Array$builderToArray = F2(
 		}
 	});
 var elm$core$Basics$idiv = _Basics_idiv;
-var elm$core$Basics$lt = _Utils_lt;
 var elm$core$Elm$JsArray$initialize = _JsArray_initialize;
 var elm$core$Array$initializeHelp = F5(
 	function (fn, fromIndex, len, nodeList, tail) {
@@ -4852,7 +4762,6 @@ var elm$json$Json$Decode$Index = F2(
 var elm$json$Json$Decode$OneOf = function (a) {
 	return {$: 2, a: a};
 };
-var elm$core$Basics$append = _Utils_append;
 var elm$core$Char$isLower = function (_char) {
 	var code = elm$core$Char$toCode(_char);
 	return (97 <= code) && (code <= 122);
@@ -4920,11 +4829,6 @@ var elm$core$String$join = F2(
 			_List_toArray(chunks));
 	});
 var elm$core$String$uncons = _String_uncons;
-var elm$core$String$split = F2(
-	function (sep, string) {
-		return _List_fromArray(
-			A2(_String_split, sep, string));
-	});
 var elm$json$Json$Decode$indent = function (str) {
 	return A2(
 		elm$core$String$join,
@@ -5206,10 +5110,100 @@ var author$project$Main$viewI = F5(
 					_List_Nil)
 				]));
 	});
+var elm$core$Maybe$map = F2(
+	function (f, maybe) {
+		if (!maybe.$) {
+			var value = maybe.a;
+			return elm$core$Maybe$Just(
+				f(value));
+		} else {
+			return elm$core$Maybe$Nothing;
+		}
+	});
+var elm$core$Maybe$withDefault = F2(
+	function (_default, maybe) {
+		if (!maybe.$) {
+			var value = maybe.a;
+			return value;
+		} else {
+			return _default;
+		}
+	});
+var elm$core$String$toFloat = _String_toFloat;
 var elm$html$Html$fieldset = _VirtualDom_node('fieldset');
 var elm$html$Html$form = _VirtualDom_node('form');
 var elm$html$Html$legend = _VirtualDom_node('legend');
 var author$project$Main$view = function (model) {
+	var _n0 = function () {
+		switch (model.$) {
+			case 0:
+				var i1 = model.a;
+				var v = elm$core$String$toFloat(i1);
+				return _Utils_Tuple3(
+					i1,
+					A2(
+						elm$core$Maybe$withDefault,
+						'',
+						A2(
+							elm$core$Maybe$map,
+							A2(elm$core$Basics$composeL, author$project$Main$truncate, author$project$Main$l100ToMpg),
+							v)),
+					A2(
+						elm$core$Maybe$withDefault,
+						'',
+						A2(
+							elm$core$Maybe$map,
+							A2(
+								elm$core$Basics$composeL,
+								A2(elm$core$Basics$composeL, author$project$Main$truncate, author$project$Main$milesToKilometers),
+								author$project$Main$l100ToMpg),
+							v)));
+			case 1:
+				var i2 = model.a;
+				var v = elm$core$String$toFloat(i2);
+				return _Utils_Tuple3(
+					A2(
+						elm$core$Maybe$withDefault,
+						'',
+						A2(
+							elm$core$Maybe$map,
+							A2(elm$core$Basics$composeL, author$project$Main$truncate, author$project$Main$mpgToL100),
+							v)),
+					i2,
+					A2(
+						elm$core$Maybe$withDefault,
+						'',
+						A2(
+							elm$core$Maybe$map,
+							A2(elm$core$Basics$composeL, author$project$Main$truncate, author$project$Main$milesToKilometers),
+							v)));
+			default:
+				var i3 = model.a;
+				var v = elm$core$String$toFloat(i3);
+				return _Utils_Tuple3(
+					A2(
+						elm$core$Maybe$withDefault,
+						'',
+						A2(
+							elm$core$Maybe$map,
+							A2(
+								elm$core$Basics$composeL,
+								A2(elm$core$Basics$composeL, author$project$Main$truncate, author$project$Main$mpgToL100),
+								author$project$Main$kilometersToMiles),
+							v)),
+					A2(
+						elm$core$Maybe$withDefault,
+						'',
+						A2(
+							elm$core$Maybe$map,
+							A2(elm$core$Basics$composeL, author$project$Main$truncate, author$project$Main$kilometersToMiles),
+							v)),
+					i3);
+		}
+	}();
+	var input1 = _n0.a;
+	var input2 = _n0.b;
+	var input3 = _n0.c;
 	return A2(
 		elm$html$Html$form,
 		_List_Nil,
@@ -5230,7 +5224,7 @@ var author$project$Main$view = function (model) {
 							[
 								elm$html$Html$text('Fuel consumption')
 							])),
-						A5(author$project$Main$viewI, 'fuel-consumption', true, 'L/100 km', author$project$Main$Update1, model.v.e)
+						A5(author$project$Main$viewI, 'fuel-consumption', true, 'L/100 km', author$project$Main$Update1, input1)
 					])),
 				A2(
 				elm$html$Html$fieldset,
@@ -5247,8 +5241,8 @@ var author$project$Main$view = function (model) {
 							[
 								elm$html$Html$text('Fuel economy')
 							])),
-						A5(author$project$Main$viewI, 'fuel-economy-mpg', false, 'mpg', author$project$Main$Update2, model.w.e),
-						A5(author$project$Main$viewI, 'fuel-economy-kpg', false, 'kpg', author$project$Main$Update3, model.x.e)
+						A5(author$project$Main$viewI, 'fuel-economy-mpg', false, 'mpg', author$project$Main$Update2, input2),
+						A5(author$project$Main$viewI, 'fuel-economy-kpg', false, 'kpg', author$project$Main$Update3, input3)
 					]))
 			]));
 };
@@ -5362,7 +5356,6 @@ var elm$core$Task$perform = F2(
 			A2(elm$core$Task$map, toMessage, task));
 	});
 var elm$core$String$length = _String_length;
-var elm$core$String$slice = _String_slice;
 var elm$core$String$dropLeft = F2(
 	function (n, string) {
 		return (n < 1) ? string : A3(
@@ -5378,15 +5371,11 @@ var elm$core$String$indexes = _String_indexes;
 var elm$core$String$isEmpty = function (string) {
 	return string === '';
 };
-var elm$core$String$left = F2(
-	function (n, string) {
-		return (n < 1) ? '' : A3(elm$core$String$slice, 0, n, string);
-	});
 var elm$core$String$contains = _String_contains;
 var elm$core$String$toInt = _String_toInt;
 var elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
-		return {W: fragment, X: host, aa: path, ac: port_, af: protocol, ag: query};
+		return {R: fragment, S: host, W: path, Y: port_, aa: protocol, ab: query};
 	});
 var elm$url$Url$chompBeforePath = F5(
 	function (protocol, path, params, frag, str) {
@@ -5493,22 +5482,22 @@ var elm$url$Url$fromString = function (str) {
 var elm$browser$Browser$sandbox = function (impl) {
 	return _Browser_element(
 		{
-			aw: function (_n0) {
-				return _Utils_Tuple2(impl.aw, elm$core$Platform$Cmd$none);
+			ar: function (_n0) {
+				return _Utils_Tuple2(impl.ar, elm$core$Platform$Cmd$none);
 			},
-			aC: function (_n1) {
+			ax: function (_n1) {
 				return elm$core$Platform$Sub$none;
 			},
-			aE: F2(
+			az: F2(
 				function (msg, model) {
 					return _Utils_Tuple2(
-						A2(impl.aE, msg, model),
+						A2(impl.az, msg, model),
 						elm$core$Platform$Cmd$none);
 				}),
-			aG: impl.aG
+			aB: impl.aB
 		});
 };
 var author$project$Main$main = elm$browser$Browser$sandbox(
-	{aw: author$project$Main$init, aE: author$project$Main$update, aG: author$project$Main$view});
+	{ar: author$project$Main$init, az: author$project$Main$update, aB: author$project$Main$view});
 _Platform_export({'Main':{'init':author$project$Main$main(
 	elm$json$Json$Decode$succeed(0))(0)}});}(this));

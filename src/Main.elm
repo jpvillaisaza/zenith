@@ -15,19 +15,15 @@ main =
     }
 
 
-type alias Model =
-  { input1 : { i : String, v : Maybe Float }
-  , input2 : { i : String, v : Maybe Float }
-  , input3 : { i : String, v : Maybe Float }
-  }
+type Model
+  = Input1 String
+  | Input2 String
+  | Input3 String
 
 
 init : Model
 init =
-  { input1 = { i = "", v = Nothing }
-  , input2 = { i = "", v = Nothing }
-  , input3 = { i = "", v = Nothing }
-  }
+  Input1 ""
 
 
 type Msg
@@ -40,28 +36,13 @@ update : Msg -> Model -> Model
 update msg model =
   case msg of
     Update1 dirty ->
-      let m = clean dirty in
-      { model
-      | input1 = { i = m, v = String.toFloat m }
-      , input2 = { i = Maybe.withDefault "" (Maybe.map (String.fromFloat << l100ToMpg) (String.toFloat m)), v = Maybe.map l100ToMpg (String.toFloat m) }
-      , input3 = { i = Maybe.withDefault "" (Maybe.map (String.fromFloat << milesToKilometers << l100ToMpg) (String.toFloat m)), v = Maybe.map (milesToKilometers << l100ToMpg) (String.toFloat m) }
-      }
+      let m = clean dirty in Input1 m
 
     Update2 dirty ->
-      let m = clean dirty in
-      { model
-      | input1 = { i = Maybe.withDefault "" (Maybe.map (String.fromFloat << mpgToL100) (String.toFloat m)), v = Maybe.map mpgToL100 (String.toFloat m) }
-      , input2 = { i = m, v = String.toFloat m }
-      , input3 = { i = Maybe.withDefault "" (Maybe.map (String.fromFloat << milesToKilometers) (String.toFloat m)), v = Maybe.map milesToKilometers (String.toFloat m) }
-      }
+      let m = clean dirty in Input2 m
 
     Update3 dirty ->
-      let m = clean dirty in
-      { model
-      | input1 = { i = Maybe.withDefault "" (Maybe.map (String.fromFloat << mpgToL100 << kilometersToMiles) (String.toFloat m)), v = Maybe.map (mpgToL100 << kilometersToMiles) (String.toFloat m) }
-      , input2 = { i = Maybe.withDefault "" (Maybe.map (String.fromFloat << kilometersToMiles) (String.toFloat m)), v = Maybe.map kilometersToMiles (String.toFloat m) }
-      , input3 = { i = clean m, v = String.toFloat m }
-      }
+      let m = clean dirty in Input3 m
 
 
 clean : String -> String
@@ -79,19 +60,40 @@ clean =
 
 view : Model -> Html Msg
 view model =
-  Html.form []
-    [ Html.fieldset [ Html.Attributes.class "form-group" ]
-      [ Html.legend []
-        [ Html.text "Fuel consumption" ]
-      , viewI "fuel-consumption" True "L/100 km" Update1 model.input1.i
+  let
+    (input1, input2, input3) =
+      case model of
+        Input1 i1 -> let v = String.toFloat i1 in
+          ( i1
+          , Maybe.withDefault "" (Maybe.map (String.fromFloat << l100ToMpg) v)
+          , Maybe.withDefault "" (Maybe.map (String.fromFloat << milesToKilometers << l100ToMpg) v)
+          )
+
+        Input2 i2 -> let v = String.toFloat i2 in
+          ( Maybe.withDefault "" (Maybe.map (String.fromFloat << mpgToL100) v)
+          , i2
+          , Maybe.withDefault "" (Maybe.map (String.fromFloat << milesToKilometers) v)
+          )
+
+        Input3 i3 -> let v = String.toFloat i3 in
+          ( Maybe.withDefault "" (Maybe.map (String.fromFloat << mpgToL100 << kilometersToMiles) v)
+          , Maybe.withDefault "" (Maybe.map (String.fromFloat << kilometersToMiles) v)
+          , i3
+          )
+  in
+    Html.form []
+      [ Html.fieldset [ Html.Attributes.class "form-group" ]
+        [ Html.legend []
+          [ Html.text "Fuel consumption" ]
+        , viewI "fuel-consumption" True "L/100 km" Update1 input1
+        ]
+      , Html.fieldset [ Html.Attributes.class "form-group" ]
+        [ Html.legend []
+          [ Html.text "Fuel economy" ]
+        , viewI "fuel-economy-mpg" False "mpg" Update2 input2
+        , viewI "fuel-economy-kpg" False "kpg" Update3 input3
+        ]
       ]
-    , Html.fieldset [ Html.Attributes.class "form-group" ]
-      [ Html.legend []
-        [ Html.text "Fuel economy" ]
-      , viewI "fuel-economy-mpg" False "mpg" Update2 model.input2.i
-      , viewI "fuel-economy-kpg" False "kpg" Update3 model.input3.i
-      ]
-    ]
 
 
 viewI i af l u v =

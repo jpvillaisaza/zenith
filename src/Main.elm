@@ -94,6 +94,7 @@ viewBody model =
       ]
       [ Html.fieldset
         [ Html.Attributes.style "margin" "16px auto"
+        , Html.Attributes.style "min-width" "128px"
         , Html.Attributes.style "max-width" "256px"
         ]
         [ Html.legend []
@@ -102,6 +103,7 @@ viewBody model =
         ]
       , Html.fieldset
         [ Html.Attributes.style "margin" "16px auto"
+        , Html.Attributes.style "min-width" "128px"
         , Html.Attributes.style "max-width" "256px"
         ]
         [ Html.legend []
@@ -131,7 +133,9 @@ viewI i af l u v =
       , Html.Attributes.attribute "inputmode" "decimal"
       , onInput u
       , Html.Attributes.style "font-size" "32px"
-      , Html.Attributes.style "max-width" "256px"
+      , Html.Attributes.style "margin" "0 auto"
+      , Html.Attributes.style "min-width" "128px"
+      , Html.Attributes.style "max-width" "80%"
       , Html.Attributes.style "text-align" "center"
       , type_ "text"
       , value v

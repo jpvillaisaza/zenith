@@ -81,13 +81,21 @@ view model =
           , i3
           )
   in
-    Html.form []
-      [ Html.fieldset [ Html.Attributes.class "form-group" ]
+    Html.form
+      [ Html.Attributes.style "font-family" "sans-serif"
+      ]
+      [ Html.fieldset
+        [ Html.Attributes.style "margin" "16px auto"
+        , Html.Attributes.style "max-width" "256px"
+        ]
         [ Html.legend []
           [ Html.text "Fuel consumption" ]
         , viewI "fuel-consumption" True "L/100 km" Update1 input1
         ]
-      , Html.fieldset [ Html.Attributes.class "form-group" ]
+      , Html.fieldset
+        [ Html.Attributes.style "margin" "16px auto"
+        , Html.Attributes.style "max-width" "256px"
+        ]
         [ Html.legend []
           [ Html.text "Fuel economy" ]
         , viewI "fuel-economy-mpg" False "mpg" Update2 input2
@@ -97,14 +105,26 @@ view model =
 
 
 viewI i af l u v =
-  div []
-    [ label [ Html.Attributes.for i ] [ text l ]
+  div
+    [ Html.Attributes.style "display" "flex"
+    , Html.Attributes.style "flex-direction" "column"
+    , Html.Attributes.style "margin-top" "16px"
+    , Html.Attributes.style "margin-bottom" "16px"
+    ]
+    [ label
+      [ Html.Attributes.for i
+      , Html.Attributes.style "text-align" "center"
+      ]
+      [ text l ]
     , input
       [ autofocus af
       , Html.Attributes.class "form-input"
       , Html.Attributes.id i
       , Html.Attributes.attribute "inputmode" "decimal"
       , onInput u
+      , Html.Attributes.style "font-size" "32px"
+      , Html.Attributes.style "max-width" "256px"
+      , Html.Attributes.style "text-align" "center"
       , type_ "text"
       , value v
       ]

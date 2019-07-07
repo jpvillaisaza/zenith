@@ -8,8 +8,9 @@ import Html.Events exposing (onInput)
 
 main : Program () Model Msg
 main =
-  Browser.sandbox
+  Browser.document
     { init = init
+    , subscriptions = always Sub.none
     , update = update
     , view = view
     }
@@ -21,9 +22,9 @@ type Model
   | Input3 String
 
 
-init : Model
-init =
-  Input1 ""
+init : () -> (Model, Cmd Msg)
+init _ =
+  (Input1 "", Cmd.none)
 
 
 type Msg
@@ -32,17 +33,17 @@ type Msg
   | Update3 String
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
     Update1 dirty ->
-      let m = clean dirty in Input1 m
+      let m = clean dirty in (Input1 m, Cmd.none)
 
     Update2 dirty ->
-      let m = clean dirty in Input2 m
+      let m = clean dirty in (Input2 m, Cmd.none)
 
     Update3 dirty ->
-      let m = clean dirty in Input3 m
+      let m = clean dirty in (Input3 m, Cmd.none)
 
 
 clean : String -> String
@@ -58,8 +59,15 @@ clean =
     p 0 "" << String.toList << String.filter (\c -> Char.isDigit c || c == '.')
 
 
-view : Model -> Html Msg
+view : Model -> Browser.Document Msg
 view model =
+  { title = "Zenith"
+  , body = List.singleton (viewBody model)
+  }
+
+
+viewBody : Model -> Html Msg
+viewBody model =
   let
     (input1, input2, input3) =
       case model of

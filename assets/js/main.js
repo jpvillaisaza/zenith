@@ -4439,42 +4439,54 @@ var author$project$Main$clean = function () {
 						return elm$core$String$reverse(acc);
 					}
 				} else {
-					if (!_n0.a) {
+					if (',' === _n0.b.a) {
 						var _n1 = _n0.b;
-						var s = _n1.a;
 						var ss = _n1.b;
-						if (s === '.') {
-							var $temp$n = 1,
-								$temp$acc = A2(elm$core$String$cons, s, acc),
-								$temp$xs = ss;
-							n = $temp$n;
-							acc = $temp$acc;
-							xs = $temp$xs;
-							continue p;
-						} else {
-							var $temp$n = 0,
-								$temp$acc = A2(elm$core$String$cons, s, acc),
-								$temp$xs = ss;
-							n = $temp$n;
-							acc = $temp$acc;
-							xs = $temp$xs;
-							continue p;
-						}
+						var $temp$n = n,
+							$temp$acc = acc,
+							$temp$xs = A2(elm$core$List$cons, '.', ss);
+						n = $temp$n;
+						acc = $temp$acc;
+						xs = $temp$xs;
+						continue p;
 					} else {
-						var m = _n0.a;
-						var _n2 = _n0.b;
-						var s = _n2.a;
-						var ss = _n2.b;
-						if (s === '.') {
-							return elm$core$String$reverse(acc);
+						if (!_n0.a) {
+							var _n2 = _n0.b;
+							var s = _n2.a;
+							var ss = _n2.b;
+							if (s === '.') {
+								var $temp$n = 1,
+									$temp$acc = A2(elm$core$String$cons, s, acc),
+									$temp$xs = ss;
+								n = $temp$n;
+								acc = $temp$acc;
+								xs = $temp$xs;
+								continue p;
+							} else {
+								var $temp$n = 0,
+									$temp$acc = A2(elm$core$String$cons, s, acc),
+									$temp$xs = ss;
+								n = $temp$n;
+								acc = $temp$acc;
+								xs = $temp$xs;
+								continue p;
+							}
 						} else {
-							var $temp$n = m,
-								$temp$acc = A2(elm$core$String$cons, s, acc),
-								$temp$xs = ss;
-							n = $temp$n;
-							acc = $temp$acc;
-							xs = $temp$xs;
-							continue p;
+							var m = _n0.a;
+							var _n3 = _n0.b;
+							var s = _n3.a;
+							var ss = _n3.b;
+							if (s === '.') {
+								return elm$core$String$reverse(acc);
+							} else {
+								var $temp$n = m,
+									$temp$acc = A2(elm$core$String$cons, s, acc),
+									$temp$xs = ss;
+								n = $temp$n;
+								acc = $temp$acc;
+								xs = $temp$xs;
+								continue p;
+							}
 						}
 					}
 				}
@@ -4488,7 +4500,7 @@ var author$project$Main$clean = function () {
 			elm$core$String$toList),
 		elm$core$String$filter(
 			function (c) {
-				return elm$core$Char$isDigit(c) || (c === '.');
+				return elm$core$Char$isDigit(c) || ((c === '.') || (c === ','));
 			}));
 }();
 var author$project$Main$update = F2(

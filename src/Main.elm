@@ -51,11 +51,12 @@ clean =
     p n acc xs =
       case (n, xs) of
         (0, []) -> String.reverse acc
+        (_, (','::ss)) -> p n acc ('.'::ss)
         (0, (s::ss)) -> if s == '.' then p 1 (String.cons s acc) ss else p 0 (String.cons s acc) ss
         (m, []) -> String.reverse acc
         (m, (s::ss)) -> if s == '.' then String.reverse acc else p m (String.cons s acc) ss
   in
-    p 0 "" << String.toList << String.filter (\c -> Char.isDigit c || c == '.')
+    p 0 "" << String.toList << String.filter (\c -> Char.isDigit c || c == '.' || c == ',')
 
 
 view : Model -> Html Msg

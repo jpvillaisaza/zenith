@@ -1,0 +1,9 @@
+exclude:
+  - CNAME
+  - elm.json
+  - elm-stuff/
+  - Gemfile
+  - Gemfile.lock
+  - LICENSE.md
+  - README.md
+  - src/

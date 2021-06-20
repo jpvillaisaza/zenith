@@ -19,6 +19,7 @@ type Model
   = Input1 String
   | Input2 String
   | Input3 String
+  | Input4 String
 
 
 init : Model
@@ -30,6 +31,7 @@ type Msg
   = Update1 String
   | Update2 String
   | Update3 String
+  | Update4 String
 
 
 update : Msg -> Model -> Model
@@ -43,6 +45,9 @@ update msg model =
 
     Update3 dirty ->
       let m = clean dirty in Input3 m
+
+    Update4 dirty ->
+      let m = clean dirty in Input4 m
 
 
 clean : String -> String
@@ -62,24 +67,34 @@ clean =
 view : Model -> Html Msg
 view model =
   let
-    (input1, input2, input3) =
+    (input1, (input2, input3, input4)) =
       case model of
         Input1 i1 -> let v = String.toFloat i1 in
           ( i1
-          , Maybe.withDefault "" (Maybe.map (truncate << l100ToMpg) v)
+          , (Maybe.withDefault "" (Maybe.map (truncate << l100ToMpg) v)
           , Maybe.withDefault "" (Maybe.map (truncate << milesToKilometers << l100ToMpg) v)
+          , Maybe.withDefault "" (Maybe.map (truncate << l100ToKpl) v))
           )
 
         Input2 i2 -> let v = String.toFloat i2 in
           ( Maybe.withDefault "" (Maybe.map (truncate << mpgToL100) v)
-          , i2
+          , (i2
           , Maybe.withDefault "" (Maybe.map (truncate << milesToKilometers) v)
+          , Maybe.withDefault "" (Maybe.map (truncate << l100ToKpl << mpgToL100) v))
           )
 
         Input3 i3 -> let v = String.toFloat i3 in
           ( Maybe.withDefault "" (Maybe.map (truncate << mpgToL100 << kilometersToMiles) v)
-          , Maybe.withDefault "" (Maybe.map (truncate << kilometersToMiles) v)
+          , (Maybe.withDefault "" (Maybe.map (truncate << kilometersToMiles) v)
           , i3
+          , Maybe.withDefault "" (Maybe.map (truncate << l100ToKpl << mpgToL100 << kilometersToMiles) v))
+          )
+
+        Input4 i4 -> let v = String.toFloat i4 in
+          ( Maybe.withDefault "" (Maybe.map (truncate << kplToL100) v)
+          , (Maybe.withDefault "" (Maybe.map (truncate << l100ToMpg << kplToL100) v)
+          , Maybe.withDefault "" (Maybe.map (truncate << milesToKilometers << l100ToMpg << kplToL100) v)
+          , i4)
           )
   in
     Html.form
@@ -91,8 +106,8 @@ view model =
         , Html.Attributes.style "max-width" "256px"
         ]
         [ Html.legend []
-          [ Html.text "Fuel consumption" ]
-        , viewI "fuel-consumption" True "L/100 km" Update1 input1
+          [ Html.text "Units of fuel per fixed distance" ]
+        , viewI "fuel-consumption" True [text "L/100 km"] Update1 input1
         ]
       , Html.fieldset
         [ Html.Attributes.style "margin" "16px auto"
@@ -100,9 +115,10 @@ view model =
         , Html.Attributes.style "max-width" "256px"
         ]
         [ Html.legend []
-          [ Html.text "Fuel economy" ]
-        , viewI "fuel-economy-mpg" False "mpg" Update2 input2
-        , viewI "fuel-economy-kpg" False "kpg" Update3 input3
+          [ Html.text "Units of distance per fixed fuel unit" ]
+        , viewI "fuel-economy-mpg" False [text "mpg", sub [] [text "US"]] Update2 input2
+        , viewI "fuel-economy-kpg" False [text "kpg", sub [] [text "US"]] Update3 input3
+        , viewI "fuel-economy-kpl" False [text "km/L"] Update4 input4
         ]
       ]
 
@@ -118,7 +134,7 @@ viewI i af l u v =
       [ Html.Attributes.for i
       , Html.Attributes.style "text-align" "center"
       ]
-      [ text l ]
+      l
     , input
       [ autofocus af
       , Html.Attributes.class "form-input"
@@ -155,6 +171,16 @@ milesToKilometers n =
 kilometersToMiles : Float -> Float
 kilometersToMiles n =
   n / 1.609
+
+
+l100ToKpl : Float -> Float
+l100ToKpl n =
+  100 / n
+
+
+kplToL100 : Float -> Float
+kplToL100 n =
+  100 / n
 
 
 truncate : Float -> String
